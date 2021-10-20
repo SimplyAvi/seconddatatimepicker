@@ -1,12 +1,12 @@
 import React from "react";
-import { FormControl, Grid, Row, Col } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import moment from "moment-timezone";
 import DateTimeRangeContainer from "react-advanced-datetimerange-picker";
-
+import './App.css'
 class App extends React.Component {
   constructor(props) {
     super(props);
-    let start = moment(new Date(2021, 8, 20, 0, 0, 0, 0));
+    let start = moment(new Date(2016, 8, 20, 0, 0, 0, 0));
     let end = moment(start).add(5, "days").subtract(1, "second");
     this.state = {
       start: start,
@@ -40,416 +40,9 @@ class App extends React.Component {
     this.setState({ start: newStart });
   }
 
-  renderVanillaPicker(ranges, local, maxDate) {
-    let value = `${this.state.start.format(
-      "YYYY-MM-DD HH:mm"
-    )} - ${this.state.end.format("YYYY-MM-DD HH:mm")}`;
-    let disabled = true;
-    return (
-      <div>
-        <div onClick={this.onClick}>Click Me to test the smart mode picker</div>
-        <div>
-          Local settings chosen for this demo are = "YYYY-MM-DD HH:mm" with
-          Monday the first day of the week{" "}
-        </div>
-        <br />
-        <DateTimeRangeContainer
-          ranges={ranges}
-          start={this.state.start}
-          end={this.state.end}
-          local={local}
-          maxDate={maxDate}
-          applyCallback={this.applyCallback}
-          rangeCallback={this.rangeCallback}
-          smartMode
-        >
-          <FormControl
-            id="formControlsTextB"
-            type="text"
-            label="Text"
-            placeholder="Enter text"
-            style={{ cursor: "pointer" }}
-            disabled={disabled}
-            value={value}
-          />
-        </DateTimeRangeContainer>
-        <br />
-      </div>
-    );
-  }
 
-  renderTimezonePicker(ranges, local, maxDate) {
-    let value = `${this.state.start.format(
-      "YYYY-MM-DD HH:mm"
-    )} - ${this.state.end.format("YYYY-MM-DD HH:mm")}`;
-    let disabled = true;
-    return (
-      <div>
-        <div style={{ display: "flex" }}>
-          <button
-            id={"Timezone-Click-Button"}
-            onClick={() => {
-              let timezone = "Asia/Tokyo";
-              this.setState((state, props) => ({
-                timezone: timezone,
-                start: moment(state.start).tz(timezone),
-                end: moment(state.end).tz(timezone)
-              }));
-            }}
-          >
-            Click Me to change Timezone
-          </button>
-          <div>
-            {" "}
-            Allows you to change timezone, this example is Japan Tokyo{" "}
-          </div>
-        </div>
-        <br />
-        <div id="DateTimeRangeContainerTimezone">
-          <DateTimeRangeContainer
-            ranges={ranges}
-            start={this.state.start}
-            end={this.state.end}
-            local={local}
-            maxDate={maxDate}
-            applyCallback={this.applyCallback}
-            rangeCallback={this.rangeCallback}
-            smartMode
-          >
-            <FormControl
-              id="formControlsTextB"
-              type="text"
-              label="Text"
-              placeholder="Enter text"
-              style={{ cursor: "pointer" }}
-              disabled={disabled}
-              value={value}
-            />
-          </DateTimeRangeContainer>
-        </div>
-        <br />
-      </div>
-    );
-  }
 
-  renderGridPicker(ranges, local, maxDate) {
-    let disabled = true;
-    let value = `${this.state.start.format(
-      "YYYY-MM-DD HH:mm"
-    )} - ${this.state.end.format("YYYY-MM-DD HH:mm")}`;
-    return (
-      <Grid>
-        <div onClick={this.onClick}>
-          {" "}
-          Click Me to test the Date Picker in its condensed form
-        </div>
-        <br />
-        <Row className="show-grid" style={{ textAlign: "center" }}>
-          <Col xs={3} />
-          <Col xs={6} md={4} id="DateTimeRangeContainerMobileMode">
-            <DateTimeRangeContainer
-              ranges={ranges}
-              start={this.state.start}
-              end={this.state.end}
-              local={local}
-              applyCallback={this.applyCallback}
-              smartMode
-            >
-              <FormControl
-                id="formControlsTextB"
-                type="text"
-                label="Text"
-                placeholder="Enter text"
-                style={{ cursor: "pointer" }}
-                disabled={disabled}
-                value={value}
-              />
-            </DateTimeRangeContainer>
-          </Col>
-          <Col xs={3} md={4} />
-        </Row>
-        <br />
-      </Grid>
-    );
-  }
-
-  renderGridPickerNoMobileMode(ranges, local, maxDate) {
-    let disabled = true;
-    let value = `${this.state.start.format(
-      "YYYY-MM-DD HH:mm"
-    )} - ${this.state.end.format("YYYY-MM-DD HH:mm")}`;
-    return (
-      <Grid>
-        <div onClick={this.onClick}>
-          {" "}
-          Click Me to test the Date Picker in Mobile Mode disabled. Normally it
-          would be in condensed form at this size.
-        </div>
-        <br />
-        <Row className="show-grid" style={{ textAlign: "center" }}>
-          <Col xs={3} />
-          <Col xs={6} md={4} id="DateTimeRangeContainerNoMobileMode">
-            <DateTimeRangeContainer
-              ranges={ranges}
-              start={this.state.start}
-              end={this.state.end}
-              local={local}
-              applyCallback={this.applyCallback}
-              smartMode
-              noMobileMode
-            >
-              <FormControl
-                id="formControlsTextB"
-                type="text"
-                label="Text"
-                placeholder="Enter text"
-                style={{ cursor: "pointer" }}
-                disabled={disabled}
-                value={value}
-              />
-            </DateTimeRangeContainer>
-          </Col>
-          <Col xs={3} md={4} />
-        </Row>
-        <br />
-      </Grid>
-    );
-  }
-
-  renderGridPickerForceMobileMode(ranges, local, maxDate) {
-    let disabled = true;
-    let value = `${this.state.start.format(
-      "YYYY-MM-DD HH:mm"
-    )} - ${this.state.end.format("YYYY-MM-DD HH:mm")}`;
-    return (
-      <Grid>
-        <div onClick={this.onClick}>
-          {" "}
-          Click Me to test the Date Picker in Mobile Mode forced. Normally it
-          would be in full screen form at this size.
-        </div>
-        <br />
-        <Row className="show-grid" style={{ textAlign: "center" }}>
-          <Col xs={3} />
-          <Col xs={6} md={4} id="DateTimeRangeContainerForceMobileMode">
-            <DateTimeRangeContainer
-              ranges={ranges}
-              start={this.state.start}
-              end={this.state.end}
-              local={local}
-              applyCallback={this.applyCallback}
-              smartMode
-              forceMobileMode
-            >
-              <FormControl
-                id="formControlsTextB"
-                type="text"
-                label="Text"
-                placeholder="Enter text"
-                style={{ cursor: "pointer" }}
-                disabled={disabled}
-                value={value}
-              />
-            </DateTimeRangeContainer>
-          </Col>
-          <Col xs={3} md={4} />
-        </Row>
-        <br />
-      </Grid>
-    );
-  }
-
-  renderGridPickerLeftOpen(ranges, local, maxDate) {
-    let disabled = true;
-    let value = `${this.state.start.format(
-      "YYYY-MM-DD HH:mm"
-    )} - ${this.state.end.format("YYYY-MM-DD HH:mm")}`;
-    return (
-      <Grid>
-        <div onClick={this.onClick}>
-          {" "}
-          Click me to test the picker in open Left mode with mobile mode enabled
-        </div>
-        <br />
-        <Row className="show-grid" style={{ textAlign: "center" }}>
-          <Col xs={3} />
-          <Col xs={3} md={4} />
-          <Col xs={6} md={4} id="DateTimeRangeContainerLeftOpenMode">
-            <DateTimeRangeContainer
-              ranges={ranges}
-              start={this.state.start}
-              end={this.state.end}
-              local={local}
-              applyCallback={this.applyCallback}
-              smartMode
-              leftMode
-            >
-              <FormControl
-                id="formControlsTextB"
-                type="text"
-                label="Text"
-                placeholder="Enter text"
-                style={{ cursor: "pointer" }}
-                disabled={disabled}
-                value={value}
-              />
-            </DateTimeRangeContainer>
-          </Col>
-        </Row>
-        <br />
-      </Grid>
-    );
-  }
-
-  renderPickerAutoApplySmartModeDisabled(
-    ranges,
-    local,
-    maxDate,
-    descendingYears
-  ) {
-    let value = `${this.state.start.format(
-      "YYYY-MM-DD HH:mm"
-    )} - ${this.state.end.format("YYYY-MM-DD HH:mm")}`;
-    return (
-      <div id="DateTimeRangeContainerSmartModeDisabled">
-        <br />
-        <DateTimeRangeContainer
-          ranges={ranges}
-          start={this.state.start}
-          end={this.state.end}
-          local={local}
-          maxDate={maxDate}
-          applyCallback={this.applyCallback}
-          rangeCallback={this.rangeCallback}
-          autoApply
-          descendingYears={descendingYears}
-          years={[2020, 2030]}
-        >
-          <FormControl
-            id="formControlsTextB"
-            type="text"
-            label="Text"
-            placeholder="Enter text"
-            style={{ cursor: "pointer" }}
-            disabled
-            value={value}
-          />
-        </DateTimeRangeContainer>
-        <div onClick={this.onClick}>
-          Click Me to test the Date Picker with Auto Apply, Custom dates, Smart
-          Mode disabled and descending years set to {descendingYears.toString()}
-        </div>
-        <br />
-      </div>
-    );
-  }
-
-  renderPickerAutoApplySmartModeDisabledSecondsIncluded(
-    ranges,
-    local,
-    maxDate,
-    descendingYears
-  ) {
-    let value = `${this.state.start.format(
-      "YYYY-MM-DD HH:mm:ss"
-    )} - ${this.state.end.format("YYYY-MM-DD HH:mm:ss")}`;
-    local = {
-      format: "YYYY-MM-DD HH:mm:ss",
-      sundayFirst: false
-    };
-    return (
-      <div id="DateTimeRangeContainerSeconds">
-        <br />
-        <DateTimeRangeContainer
-          ranges={ranges}
-          start={this.state.start}
-          end={this.state.end}
-          local={local}
-          maxDate={maxDate}
-          applyCallback={this.applyCallback}
-          rangeCallback={this.rangeCallback}
-          autoApply
-          descendingYears={descendingYears}
-          years={[2020, 2030]}
-        >
-          <FormControl
-            id="formControlsTextB"
-            type="text"
-            label="Text"
-            placeholder="Enter text"
-            style={{ cursor: "pointer" }}
-            disabled
-            value={value}
-          />
-        </DateTimeRangeContainer>
-        <div onClick={this.onClick}>
-          Click Me to test the Date Picker with Auto Apply and Seconds local
-          format
-        </div>
-        <br />
-      </div>
-    );
-  }
-
-  renderPickerSmartModeDisabledCustomStyling(
-    ranges,
-    local,
-    maxDate,
-    descendingYears
-  ) {
-    let disabled = true;
-    let value = `${this.state.start.format(
-      "YYYY-MM-DD HH:mm"
-    )} - ${this.state.end.format("YYYY-MM-DD HH:mm")}`;
-    return (
-      <div id="DateTimeRangeContainerCustomStyles">
-        <br />
-        <DateTimeRangeContainer
-          ranges={ranges}
-          start={this.state.start}
-          end={this.state.end}
-          local={local}
-          maxDate={maxDate}
-          applyCallback={this.applyCallback}
-          rangeCallback={this.rangeCallback}
-          descendingYears={descendingYears}
-          years={[2020, 2030]}
-          style={{
-            fromDot: { backgroundColor: "rgb(100, 0, 34)" },
-            toDot: { backgroundColor: "rgb(0, 135, 255)" },
-            fromDate: {
-              color: "rgb(0, 255, 100)",
-              backgroundColor: "rgb(255, 100, 100)"
-            },
-            toDate: { backgroundColor: "rgb(40, 90, 75)" },
-            betweenDates: {
-              color: "rgb(200, 0, 34)",
-              backgroundColor: "rgb(200, 150, 100)"
-            },
-            hoverCell: { color: "rgb(200, 0, 34)" },
-            customRangeButtons: { backgroundColor: "rgb(40, 90, 75)" },
-            customRangeSelected: { backgroundColor: "rgb(100, 90, 200)" }
-          }}
-          darkMode
-        >
-          <FormControl
-            id="formControlsTextB"
-            type="text"
-            label="Text"
-            placeholder="Enter text"
-            style={{ cursor: "pointer" }}
-            disabled={disabled}
-            value={value}
-          />
-        </DateTimeRangeContainer>
-        <div onClick={this.onClick}>
-          Click Me to test the Date Picker with Custom Styling and descending
-          years set to {descendingYears.toString()}
-        </div>
-        <br />
-      </div>
-    );
-  }
+ 
 
   renderPickerAutoApplyPastFriendly(ranges, local, maxDate, descendingYears) {
     let value = `${this.state.start.format(
@@ -468,7 +61,7 @@ class App extends React.Component {
           rangeCallback={this.rangeCallback}
           autoApply
           descendingYears={descendingYears}
-          years={[2020, 2030]}
+          years={[2010, 2020]}
           pastSearchFriendly
           smartMode
         >
@@ -494,11 +87,11 @@ class App extends React.Component {
 
   renderStandalone(ranges, local, maxDate, descendingYears) {
     return (
-      <div id="DateTimeRangeContainerStandalone">
+      <div class='DateTimeRangeStandAloneContainer' id="DateTimeRangeContainerStandalone">
         <br />
         <p>
           {" "}
-          <b>Standalone</b> DateTime picker. Values are{" "}
+          <b> Avi's </b> DateTime picker. Values are{" "}
           {this.state.start.format("YYYY-MM-DD HH:mm")} and{" "}
           {this.state.end.format("YYYY-MM-DD HH:mm")}{" "}
         </p>
@@ -512,7 +105,7 @@ class App extends React.Component {
           rangeCallback={this.rangeCallback}
           autoApply
           descendingYears={descendingYears}
-          years={[2020, 2030]}
+          years={[2010, 2020]}
           standalone
           style={{
             standaloneLayout: { display: "flex", maxWidth: "fit-content" }
@@ -542,7 +135,7 @@ class App extends React.Component {
       "1 Month": [moment(start).subtract(1, "months"), moment(end)],
       "1st August 18": [
         moment("2021-08-01 00:00:00"),
-        moment("2022-08-02 23:59:59")
+        moment("2021-08-02 23:59:59")
       ],
       "1 Year": [moment(start).subtract(1, "years"), moment(end)]
     };
@@ -553,25 +146,6 @@ class App extends React.Component {
     let maxDate = moment(end).add(24, "hour");
     let pickersRender = (
       <div>
-        <br />
-        {this.renderVanillaPicker(ranges, local, maxDate)}
-        {this.renderGridPicker(ranges, local, maxDate)}
-        {this.renderGridPickerNoMobileMode(ranges, local, maxDate)}
-        {this.renderGridPickerForceMobileMode(ranges, local, maxDate)}
-        {this.renderGridPickerLeftOpen(ranges, local, maxDate)}
-        {this.renderPickerAutoApplySmartModeDisabled(
-          ranges,
-          local,
-          maxDate,
-          true
-        )}
-        {this.renderPickerSmartModeDisabledCustomStyling(
-          ranges,
-          local,
-          maxDate,
-          true
-        )}
-        {this.renderPickerAutoApplyPastFriendly(ranges, local, maxDate, false)}
         {this.renderStandalone(ranges, local, maxDate, false)}
       </div>
     );
@@ -582,47 +156,23 @@ class App extends React.Component {
         local,
         maxDate,
         true
-      );
-    } else if (this.state.timezoneDisplay) {
-      pickers = this.renderTimezonePicker(ranges, local, maxDate);
+      )
     } else {
       pickers = pickersRender;
     }
+
     return (
       <div className="container">
-        <h1>Go on and Make my day with all the varieties!</h1>
+        <h1>Welcome to Avi's Date-Time-Picker Demo</h1>
         <button
           id={"Reset-Toggle"}
           onClick={() =>
             this.setState({
-              secondDisplay: false,
-              timezoneDisplay: false
+              secondDisplay: false
             })
           }
         >
           Reset
-        </button>
-        <button
-          id={"Second-Toggle"}
-          onClick={() =>
-            this.setState({
-              secondDisplay: !this.state.secondDisplay,
-              timezoneDisplay: false
-            })
-          }
-        >
-          Second Picker Toggle
-        </button>
-        <button
-          id={"Timezone-Toggle"}
-          onClick={() =>
-            this.setState({
-              secondDisplay: false,
-              timezoneDisplay: !this.state.timezoneDisplay
-            })
-          }
-        >
-          Timezone Picker Toggle
         </button>
         {pickers}
       </div>
